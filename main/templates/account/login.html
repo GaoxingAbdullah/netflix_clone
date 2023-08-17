@@ -15,12 +15,14 @@
 
     <header class="min-h-screen w-full bg-black bg-opacity-75 showcase border-gray-600 border-b-8 flex justify-center py-20 bg-no-repeat"  style="background-image: url('{% static 'images/background_netflix.jpg' %}');">
         <div class="z-10 h-full py-32 md:py-0 text-gray-100 w-6/12  flex items-center flex-col">
-            <form class="bg-black bg-opacity-70 py-8 px-4 w-8/12 rounded-md" >
+            <form   method="POST" class="bg-black bg-opacity-70 py-8 px-4 w-8/12 rounded-md" >
                 <h1 class="text-4xl font-semibold text-center ">
                     Log In
                 </h1>
+                
+                {% csrf_token %}
 
-                {% if form.erros %}
+                {% if form.errors %}
 
                     <div class="text-center my-4 text-primary_red">
 
@@ -31,9 +33,7 @@
                         </p>
                     </div>
                 {% endif %}
-        
-                   
-                </div>
+
                 <div> 
                     <Label class='text-lg font-medium mb-3'>
                         Email
@@ -54,13 +54,13 @@
 
                 {% if redirect_field_value %}
 
-                    <input type="hidden" name="next" value="{{ redirect_field_value }}">
+                    <input type="hidden" name="{{  redirect_field_name }}" value="{{ redirect_field_value }}">
 
                 {% endif %}
 
                 <div class="text-center my-4">
                     <p>
-                        Do not have account <a href="/signup.html" class="text-blue-600"> Sign Up</a>
+                        Do not have account <a href="{% url 'account_signup' %}" class="text-blue-600"> Sign Up</a>
                     </p>
                 </div>
             </form>

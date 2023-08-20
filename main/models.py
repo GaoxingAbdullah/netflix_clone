@@ -4,13 +4,13 @@ import uuid
 
 
 AGE_CHOICE = (
-        ('all', 'all'),
-        ('kids', 'kids'),
+        ('All', 'All'),
+        ('Kids', 'Kids'),
     )
 
 MOVEI_TYPE = (
-        ('movie', 'movie'),
-        ('series', 'series'),
+        ('Movie', 'Movie'),
+        ('Series', 'Series'),
     )
 
 

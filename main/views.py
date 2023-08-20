@@ -24,8 +24,12 @@ class ProfileListView(View):
         return render(request, 'profileList.html', context)
 
 
-@method_decorator(login_required, name='dispatch')
+
 class ProfileCreate(View):
+    @method_decorator(login_required, name='dispatch')
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+    
     def get(self, request, *args, **kwargs):
         form = ProfileForm()
         context = {
@@ -38,12 +42,18 @@ class ProfileCreate(View):
         form = ProfileForm(request.POST)
 
         if form.is_valid():
-            print(form.cleaned_data)
-            profile = Profile.objects.create(form.cleaned_data)
-            if profile:
-                request.user.profiles.add(profile)
-
-                return redirect('profiles')
+                profile = Profile.objects.create(**form.cleaned_data)
+                if profile:
+                    request.user.profiles.add(profile)
+                    # Check if 'profiles' is a valid URL pattern name
+                    return redirect('profiles')
+                else:
+                    # Debugging: Print a message if profile creation fails
+                    print("Profile creation failed")
+        else:
+                # Debugging: Print form errors if the form is not valid
+                print("Form errors:", form.errors)
+                
         context = {
                 'form': form,
             }

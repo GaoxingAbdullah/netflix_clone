@@ -23,7 +23,7 @@
 
         <div class="flex flex-wrap justify-center items-center w-10/12  md:w-6/12">
            {% for profile in profiles %}
-            <a href="#">
+            <a href="{% url 'watch' profile_id=profile.id %}">
                 <div class="w-32 h-32 m-4 flex flex-col justify-center align-center text-center bg-blue-500 rounded-md cursor-pointer">
                   
                     <p class="text-6xl">

@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 
 from .forms import ProfileForm
-from .models import Profile
+from .models import Movie, Profile
 
 class HomeView(View):
     def get(self, request, *args, **kwargs):
@@ -53,8 +53,28 @@ class ProfileCreate(View):
         else:
                 # Debugging: Print form errors if the form is not valid
                 print("Form errors:", form.errors)
-                
+
         context = {
                 'form': form,
             }
         return render(request, 'profileCreate.html', context)
+
+
+
+
+class Watch(View):
+     def get(self, request, profile_id, *args, **kwargs):
+        try:
+            profile = Profile.objects.get(id=profile_id)
+            movies = Movie.objects.filter(age_limit=profile.age_limit)
+            
+            if profile not in request.user.profiles.all():
+                    return redirect('profiles')
+            
+            context = {
+                    'movies': movies,
+            }
+            return render(request, 'movieList.html', context)
+              
+        except Profile.DoesNotExist:
+                return redirect('profiles')
